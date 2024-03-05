@@ -9,11 +9,25 @@ btn_equals = tkinter.PhotoImage(file=r"Pics\btn_equal.png")
 btn_backspace = tkinter.PhotoImage(file=r"Pics\btn_backspace.png")
 btn_clear = tkinter.PhotoImage(file=r"Pics\btn_clear.png")
 entry = tkinter.PhotoImage(file=r"Pics\entry.png")
+line = tkinter.PhotoImage(file=r"Pics\line.png")
 
 entry_label = tkinter.Label(master, image= entry, border=0, background="#545454")
 entry_label.place(x=16, y=22)
+
 user_input = tkinter.Entry(master, font = "Calibri 20", background="#D9D9D9", borderwidth=0, justify="right")
-user_input.place(x=20, y = 195, width=350, height=30)
+user_input.place(x=24, y = 197, width=350, height=30)
+
+scrollbar = tkinter.Scrollbar(master)
+scrollbar.place(x=356,y=28, height= 165)
+
+label_line = tkinter.Label(master, image= line, borderwidth=0)
+label_line.place(x = 22, y = 196)
+
+history = tkinter.Listbox(master,font = "Calibri 18", background="#D9D9D9", highlightthickness=0, borderwidth=0, justify="right", activestyle= "none", fg="#898888")
+history.config(yscrollcommand= scrollbar.set)
+history.place(x = 24, y= 28, width = 330, height=165)
+
+scrollbar.config(command= history.yview)
 
 watermark_label = tkinter.Label(master, font="Calibri 18 bold", foreground="#2E2D2D", text="Kata Calculator", background="#545454")
 watermark_label.place(x=120, y = 240)
@@ -33,7 +47,8 @@ class MainWindow(tkinter.Frame):
         user_input.delete(0, tkinter.END)    
         user_input.insert(0, current_text + str(value))   
     
-    def calc():
+    def calc():     
+        text = user_input.get()
         user_input_replace = user_input.get()
         user_input_replace = user_input_replace.replace("π",f"{math.pi}")
         user_input_replace = user_input_replace.replace("^","**")
@@ -43,7 +58,10 @@ class MainWindow(tkinter.Frame):
             user_input.delete(0, tkinter.END)
             user_input.insert(tkinter.END, str(result))
         except SyntaxError:
-            messagebox.showinfo("Error","Invalid syntax")
+            messagebox.showinfo("Error","Invalid syntax") 
+            
+        if history.index == 4: history.delete(0, tkinter.END)
+        history.insert(0, f"{text} = {result}")  
             
             
 
@@ -80,7 +98,7 @@ class MainWindow(tkinter.Frame):
             j -= 196
                
         
-        b = tkinter.Button(master, text=f"{operators_num[x]}",borderwidth = 1,font="Calibri",command = lambda text = f"{operators_num[x]}": MainWindow.press(text))        
+        b = tkinter.Button(master, text=f"{operators_num[x]}",borderwidth = 1,font="Calibri 20",command = lambda text = f"{operators_num[x]}": MainWindow.press(text))        
         b.place(x=21+j, y= 620 + k,width= 64, height= 48)
 
     #Equal button      
@@ -88,10 +106,10 @@ class MainWindow(tkinter.Frame):
     b.place(x=117, y = 620,width=160, height= 48)
     
     #Round brackets
-    b = tkinter.Button(master, text = "(", borderwidth = 1, font="Calibri",command = lambda text = "(": MainWindow.press(text))
+    b = tkinter.Button(master, text = "(", borderwidth = 1, font="Calibri 20",command = lambda text = "(": MainWindow.press(text))
     b.place(x= 213, y = 380,width = 24, height = 48)
 
-    b = tkinter.Button(master, text= ")", borderwidth = 1, font="Calibri",command = lambda text = ")": MainWindow.press(text))
+    b = tkinter.Button(master, text= ")", borderwidth = 1, font="Calibri 20",command = lambda text = ")": MainWindow.press(text))
     b.place(x= 252, y = 380,width = 24, height = 48)
 
 
@@ -99,7 +117,7 @@ class MainWindow(tkinter.Frame):
     k = 0
     #numbers 1 - 9
     for x in range(9):        
-        b = tkinter.Button(master, text=f"{x+1}", font="Calibri",borderwidth = 1,command = lambda text = f"{x+1}": MainWindow.press(text))        
+        b = tkinter.Button(master, text=f"{x+1}", font="Calibri 20",borderwidth = 1,command = lambda text = f"{x+1}": MainWindow.press(text))        
         b.place(x=21+j, y=560+k, width= 64, height= 48)       
         j+=96
         if x == 2 or x == 5: 
