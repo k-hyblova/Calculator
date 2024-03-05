@@ -1,6 +1,5 @@
 import tkinter
 import math
-from tkinter import messagebox
 
 master = tkinter.Tk(className = "Basic Calculator")
 
@@ -68,11 +67,14 @@ class MainWindow(tkinter.Frame):
             result = eval(user_input_replace)         
             user_input.delete(0, tkinter.END)
             user_input.insert(tkinter.END, str(result))
-        except SyntaxError:
-            messagebox.showinfo("Error", "Invalid syntax") 
             
-        #Insert math problem and result in Listbox
-        history.insert(0, f"{text} = {result}")  
+            #Insert math problem and result in Listbox
+            history.insert(0, f"{text} = {result}")
+        except SyntaxError:
+            user_input.delete(0, tkinter.END)
+            user_input.insert(tkinter.END, "Syntax Error")
+            
+          
                
     def clear():       
         user_input.delete(0, tkinter.END)
