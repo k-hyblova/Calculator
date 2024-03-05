@@ -73,6 +73,9 @@ class MainWindow(tkinter.Frame):
         except SyntaxError:
             user_input.delete(0, tkinter.END)
             user_input.insert(tkinter.END, "Syntax Error")
+        except ZeroDivisionError:
+            user_input.delete(0, tkinter.END)
+            user_input.insert(tkinter.END, "Math Error")
             
           
                
