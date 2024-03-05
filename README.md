@@ -1,3 +1,3 @@
 # Basic calculator
 - Used library: Tkinter
-- Does not suport trigonometry
+- Does not support trigonometry, logarithm,...
